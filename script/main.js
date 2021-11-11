@@ -123,7 +123,12 @@ function up(e) {
 }
 
 function downMob(e) {
+    saveCtx5.drawImage(saveCanv4,0,0)
+    saveCtx4.drawImage(saveCanv3,0,0)
+    saveCtx3.drawImage(saveCanv2,0,0)
+    saveCtx2.drawImage(saveCanv,0,0)
     saveCtx.drawImage(canvas, 0, 0)
+    
     penOpt.open = false
     eraserOpt.open = false
 
