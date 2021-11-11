@@ -2,6 +2,7 @@ body{
     background-color: rgb(235, 235, 235);
     display: flex;
     justify-content: space-between;
+    margin:0px;
 }
 
 #control{
@@ -43,13 +44,11 @@ body{
 
 #eraserOpt{
     position:absolute;
-    top:235px;
     left:1155px;
 }
 
 #penOpt{
     position:absolute;
-    top:130px;
     left:1150px;
     margin-left: 0px;
 }

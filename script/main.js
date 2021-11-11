@@ -27,6 +27,10 @@ var penColor = 'black'
 
 penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
 eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
+canvas.style.transform = 'translateY(' + ((window.innerHeight - canvas.height)/2-20).toString() + 'px)'
+control.style.transform = 'translateY(' + ((window.innerHeight - 600)/2-20).toString() + 'px)'
+penOpt.style.top = ((window.innerHeight - 600)/2+100).toString() + 'px'
+eraserOpt.style.top = ((window.innerHeight - 600)/2+207).toString() + 'px'
 
 function init() {
     penOpt.open = false
@@ -180,32 +184,11 @@ pen.onauxclick = function () {
     penOpt.open = true
 }
 
-eraser.onauxclick = function () {
+eraser.ondblclick = function () {
     eraser.click()
     eraserOpt.style.animation = 'fadein 1s'
     eraserOpt.open = true
 }
-
-var isDown = 0
-var inter
-pen.ontouchdown = function () {
-    setTimeout(function () {
-        if (pen.onmousedown) {
-            pen.click()
-            penOpt.style.animation = 'fadein 1s'
-            penOpt.open = true
-        }
-    }, 500)
-}
-/*
-pen.onmouseup = function () {
-    console.log(isDown);
-    if (isDown == 1) {
-
-    }
-    isDown = 0
-    //clearInterval(inter)
-}*/
 
 blackPen.onclick = function () {
     this.style.border = '3px solid #cccccc'
