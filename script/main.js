@@ -22,8 +22,16 @@ var redPen = document.getElementById('redPen')
 var control = document.getElementById('control')
 var artboard = document.getElementById('artboard')
 
-var bgcanvas = document.getElementById('bgcanvas')
-var bgctx = bgcanvas.getContext('2d')
+var saveCanv = document.getElementById('saveCanv')
+var saveCtx = saveCanv.getContext('2d')
+var saveCanv2 = document.getElementById('saveCanv2')
+var saveCtx2 = saveCanv2.getContext('2d')
+var saveCanv3 = document.getElementById('saveCanv3')
+var saveCtx3 = saveCanv3.getContext('2d')
+var saveCanv4 = document.getElementById('saveCanv4')
+var saveCtx4 = saveCanv4.getContext('2d')
+var saveCanv5 = document.getElementById('saveCanv5')
+var saveCtx5 = saveCanv5.getContext('2d')
 
 var rPen = penVal.value / 10
 var rEraser = eraserVal.value / 100 * 20
@@ -31,16 +39,18 @@ var penColor = 'black'
 
 penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
 eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
-artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height)/2-20).toString() + 'px)'
-control.style.transform = 'translateY(' + ((window.innerHeight - 600)/2-20).toString() + 'px)'
-penOpt.style.top = ((window.innerHeight - 600)/2+100).toString() + 'px'
-eraserOpt.style.top = ((window.innerHeight - 600)/2+207).toString() + 'px'
+artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height) / 2 - 20).toString() + 'px)'
+control.style.transform = 'translateY(' + ((window.innerHeight - 600) / 2 - 20).toString() + 'px)'
+penOpt.style.top = ((window.innerHeight - 600) / 2 + 100).toString() + 'px'
+eraserOpt.style.top = ((window.innerHeight - 600) / 2 + 207).toString() + 'px'
+
+var bgcolor = 'white'
 
 function init() {
     penOpt.open = false
     eraserOpt.open = false
-    bgctx.fillStyle = 'white';
-    bgctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = bgcolor
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = penColor
     r = rPen
     pen.style.backgroundColor = 'lightblue'
@@ -87,6 +97,12 @@ artboard.ontouchstart = downMob
 artboard.ontouchend = upMob
 
 function down(e) {
+    saveCtx5.drawImage(saveCanv4,0,0)
+    saveCtx4.drawImage(saveCanv3,0,0)
+    saveCtx3.drawImage(saveCanv2,0,0)
+    saveCtx2.drawImage(saveCanv,0,0)
+    saveCtx.drawImage(canvas, 0, 0)
+    
     penOpt.open = false
     eraserOpt.open = false
 
@@ -107,6 +123,7 @@ function up(e) {
 }
 
 function downMob(e) {
+    saveCtx.drawImage(canvas, 0, 0)
     penOpt.open = false
     eraserOpt.open = false
 
@@ -155,13 +172,20 @@ pen.onclick = function () {
 eraser.onclick = function () {
     penOpt.open = false
     eraserOpt.open = false
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = bgcolor;
     r = rEraser
     this.style.backgroundColor = 'lightcoral'
     pen.style.backgroundColor = 'rgb(223, 223, 223)'
 }
 
-clrall.onclick = init
+clrall.onclick = function () {
+    saveCtx5.drawImage(saveCanv4,0,0)
+    saveCtx4.drawImage(saveCanv3,0,0)
+    saveCtx3.drawImage(saveCanv2,0,0)
+    saveCtx2.drawImage(saveCanv,0,0)
+    saveCtx.drawImage(canvas, 0, 0)
+    init()
+}
 
 save.onclick = function () {
     penOpt.open = false
@@ -169,7 +193,13 @@ save.onclick = function () {
 
     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
 
-    window.location.href = image; // it will save locally
+    var tmpLink = document.createElement("a")
+    tmpLink.download = "download.png"
+    tmpLink.href = image
+    tmpLink.style.display = "none"
+    document.body.appendChild(tmpLink);
+    tmpLink.click();
+    document.body.removeChild(tmpLink);
 }
 
 eraserVal.onchange = function () {
@@ -216,4 +246,31 @@ redPen.onclick = function () {
     blackPen.style.border = 'none'
     penColor = 'red'
     ctx.fillStyle = penColor
+}
+
+var isCtrl = false
+
+document.onkeydown = function (e) {
+    if (e.key == 'Control') {
+        isCtrl=true
+    }
+    else if (e.key == 'z'){
+        if(isCtrl) {
+            ctx.drawImage(saveCanv,0,0)
+            saveCtx.drawImage(saveCanv2,0,0)
+            saveCtx2.drawImage(saveCanv3,0,0)
+            saveCtx3.drawImage(saveCanv4,0,0)
+            saveCtx4.drawImage(saveCanv5,0,0)
+        }
+    }
+    else if (e.key == 's'){
+        e.preventDefault()
+        if(isCtrl) save.click()
+    }
+}
+
+document.onkeyup = function (e) {
+    if (e.key =='Control') {
+        isCtrl = false
+    }
 }
