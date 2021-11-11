@@ -3,6 +3,7 @@ body{
     display: flex;
     justify-content: space-between;
     margin:0px;
+    user-select: none;
 }
 
 #control{
@@ -10,6 +11,11 @@ body{
     justify-content:center;
     flex-direction: column;
     float:right;
+}
+
+#draw{
+    height:fit-content;
+    width: fit-content;
 }
 
 .tool-icon{
@@ -94,4 +100,11 @@ body{
 
 #leftbar{
     width:90px;
+}
+
+#canvas{
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left:0px;
 }

@@ -20,6 +20,10 @@ var bluePen = document.getElementById('bluePen')
 var redPen = document.getElementById('redPen')
 
 var control = document.getElementById('control')
+var artboard = document.getElementById('artboard')
+
+var bgcanvas = document.getElementById('bgcanvas')
+var bgctx = bgcanvas.getContext('2d')
 
 var rPen = penVal.value / 10
 var rEraser = eraserVal.value / 100 * 20
@@ -27,7 +31,7 @@ var penColor = 'black'
 
 penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
 eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
-canvas.style.transform = 'translateY(' + ((window.innerHeight - canvas.height)/2-20).toString() + 'px)'
+artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height)/2-20).toString() + 'px)'
 control.style.transform = 'translateY(' + ((window.innerHeight - 600)/2-20).toString() + 'px)'
 penOpt.style.top = ((window.innerHeight - 600)/2+100).toString() + 'px'
 eraserOpt.style.top = ((window.innerHeight - 600)/2+207).toString() + 'px'
@@ -35,8 +39,8 @@ eraserOpt.style.top = ((window.innerHeight - 600)/2+207).toString() + 'px'
 function init() {
     penOpt.open = false
     eraserOpt.open = false
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    bgctx.fillStyle = 'white';
+    bgctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = penColor
     r = rPen
     pen.style.backgroundColor = 'lightblue'
@@ -77,10 +81,10 @@ function drawMob(evt) {
     curY = getTouchPos(canvas, evt).y
 }
 
-canvas.onmousedown = down
-canvas.onmouseup = up
-canvas.ontouchstart = downMob
-canvas.ontouchend = upMob
+artboard.onmousedown = down
+artboard.onmouseup = up
+artboard.ontouchstart = downMob
+artboard.ontouchend = upMob
 
 function down(e) {
     penOpt.open = false
@@ -93,13 +97,13 @@ function down(e) {
     ctx.arc(curX, curY, r / 2, 0, 2 * Math.PI)
     ctx.fill()
 
-    canvas.addEventListener('mousemove', draw)
+    artboard.addEventListener('mousemove', draw)
 }
 
 function up(e) {
     curX = getMousePos(canvas, e).x
     curY = getMousePos(canvas, e).y
-    canvas.removeEventListener('mousemove', draw)
+    artboard.removeEventListener('mousemove', draw)
 }
 
 function downMob(e) {
@@ -113,13 +117,13 @@ function downMob(e) {
     ctx.arc(curX, curY, r / 2, 0, 2 * Math.PI)
     ctx.fill()
 
-    canvas.addEventListener('touchmove', drawMob)
+    artboard.addEventListener('touchmove', drawMob)
 }
 
 function upMob(e) {
     curX = getTouchPos(canvas, e).x
     curY = getTouchPos(canvas, e).y
-    canvas.removeEventListener('touchmove', drawMob)
+    artboard.removeEventListener('touchmove', drawMob)
 }
 
 function getMousePos(canvas, evt) {
