@@ -33,16 +33,41 @@ var saveCtx4 = saveCanv4.getContext('2d')
 var saveCanv5 = document.getElementById('saveCanv5')
 var saveCtx5 = saveCanv5.getContext('2d')
 
+var nextCanv = document.getElementById('nextCanv')
+var nextCtx = nextCanv.getContext('2d')
+var nextCanv2 = document.getElementById('nextCanv2')
+var nextCtx2 = nextCanv2.getContext('2d')
+var nextCanv3 = document.getElementById('nextCanv3')
+var nextCtx3 = nextCanv3.getContext('2d')
+var nextCanv4 = document.getElementById('nextCanv4')
+var nextCtx4 = nextCanv4.getContext('2d')
+var nextCanv5 = document.getElementById('nextCanv5')
+var nextCtx5 = nextCanv5.getContext('2d')
+
+var undo = document.getElementById('undo')
+var redo = document.getElementById('redo')
+
+var redoTime = 0
+redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+
+var undoTime = 0
+undo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+
 var rPen = penVal.value / 10
 var rEraser = eraserVal.value / 100 * 20
 var penColor = 'black'
 
-penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
-eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
-artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height) / 2 - 20).toString() + 'px)'
-control.style.transform = 'translateY(' + ((window.innerHeight - 600) / 2 - 20).toString() + 'px)'
-penOpt.style.top = ((window.innerHeight - 600) / 2 + 100).toString() + 'px'
-eraserOpt.style.top = ((window.innerHeight - 600) / 2 + 207).toString() + 'px'
+window.onresize = setSize
+window.onload = setSize
+
+function setSize() {
+    penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
+    eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
+    artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height) / 2 - 20).toString() + 'px)'
+    control.style.transform = 'translateY(' + ((window.innerHeight - 600) / 2 - 20).toString() + 'px)'
+    penOpt.style.top = ((window.innerHeight - 600) / 2 + 100).toString() + 'px'
+    eraserOpt.style.top = ((window.innerHeight - 600) / 2 + 207).toString() + 'px'
+}
 
 var bgcolor = 'white'
 
@@ -97,12 +122,18 @@ artboard.ontouchstart = downMob
 artboard.ontouchend = upMob
 
 function down(e) {
-    saveCtx5.drawImage(saveCanv4,0,0)
-    saveCtx4.drawImage(saveCanv3,0,0)
-    saveCtx3.drawImage(saveCanv2,0,0)
-    saveCtx2.drawImage(saveCanv,0,0)
+    undoTime++
+    if (undoTime > 5) undoTime = 5
+    if (undoTime > 0) undo.style="unset"
+    redoTime=0
+    redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+
+    saveCtx5.drawImage(saveCanv4, 0, 0)
+    saveCtx4.drawImage(saveCanv3, 0, 0)
+    saveCtx3.drawImage(saveCanv2, 0, 0)
+    saveCtx2.drawImage(saveCanv, 0, 0)
     saveCtx.drawImage(canvas, 0, 0)
-    
+
     penOpt.open = false
     eraserOpt.open = false
 
@@ -123,12 +154,18 @@ function up(e) {
 }
 
 function downMob(e) {
-    saveCtx5.drawImage(saveCanv4,0,0)
-    saveCtx4.drawImage(saveCanv3,0,0)
-    saveCtx3.drawImage(saveCanv2,0,0)
-    saveCtx2.drawImage(saveCanv,0,0)
+    saveCtx5.drawImage(saveCanv4, 0, 0)
+    saveCtx4.drawImage(saveCanv3, 0, 0)
+    saveCtx3.drawImage(saveCanv2, 0, 0)
+    saveCtx2.drawImage(saveCanv, 0, 0)
     saveCtx.drawImage(canvas, 0, 0)
-    
+
+    undoTime++
+    if (undoTime > 5) undoTime = 5
+    if (undoTime > 0) undo.style="unset"
+    redoTime =0
+    redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+
     penOpt.open = false
     eraserOpt.open = false
 
@@ -184,10 +221,10 @@ eraser.onclick = function () {
 }
 
 clrall.onclick = function () {
-    saveCtx5.drawImage(saveCanv4,0,0)
-    saveCtx4.drawImage(saveCanv3,0,0)
-    saveCtx3.drawImage(saveCanv2,0,0)
-    saveCtx2.drawImage(saveCanv,0,0)
+    saveCtx5.drawImage(saveCanv4, 0, 0)
+    saveCtx4.drawImage(saveCanv3, 0, 0)
+    saveCtx3.drawImage(saveCanv2, 0, 0)
+    saveCtx2.drawImage(saveCanv, 0, 0)
     saveCtx.drawImage(canvas, 0, 0)
     init()
 }
@@ -217,17 +254,21 @@ penVal.onchange = function () {
     r = rPen
 }
 
-pen.onauxclick = function () {
+pen.ontouchend = function () {
     pen.click()
     penOpt.style.animation = 'fadein 1s'
     penOpt.open = true
 }
 
-eraser.ondblclick = function () {
+pen.onauxclick = pen.ontouchend
+
+eraser.ontouchend = function () {
     eraser.click()
     eraserOpt.style.animation = 'fadein 1s'
     eraserOpt.open = true
 }
+
+eraser.onauxclick = eraser.ontouchend
 
 blackPen.onclick = function () {
     this.style.border = '3px solid #cccccc'
@@ -256,26 +297,66 @@ redPen.onclick = function () {
 var isCtrl = false
 
 document.onkeydown = function (e) {
-    if (e.key == 'Control') {
-        isCtrl=true
+    if (e.key == 'Control') isCtrl = true
+    else if (e.key == 'Shift') isShift = true
+    else if (e.key == 'z') {
+        if (isCtrl) undo.click()
     }
-    else if (e.key == 'z'){
-        if(isCtrl) {
-            ctx.drawImage(saveCanv,0,0)
-            saveCtx.drawImage(saveCanv2,0,0)
-            saveCtx2.drawImage(saveCanv3,0,0)
-            saveCtx3.drawImage(saveCanv4,0,0)
-            saveCtx4.drawImage(saveCanv5,0,0)
-        }
+    else if (e.key == 'y') {
+        if (isCtrl) redo.click()
     }
-    else if (e.key == 's'){
+    else if (e.key == 's') {
         e.preventDefault()
-        if(isCtrl) save.click()
+        if (isCtrl) save.click()
     }
+    else if (e.key == 'F12') e.preventDefault()
 }
 
 document.onkeyup = function (e) {
-    if (e.key =='Control') {
+    if (e.key == 'Control') {
         isCtrl = false
     }
+}
+
+undo.onclick = function () {
+    if (undoTime > 0) {
+        nextCtx5.drawImage(nextCanv4, 0, 0)
+        nextCtx4.drawImage(nextCanv3, 0, 0)
+        nextCtx3.drawImage(nextCanv2, 0, 0)
+        nextCtx2.drawImage(nextCanv, 0, 0)
+        nextCtx.drawImage(canvas, 0, 0)
+        ctx.drawImage(saveCanv, 0, 0)
+        saveCtx.drawImage(saveCanv2, 0, 0)
+        saveCtx2.drawImage(saveCanv3, 0, 0)
+        saveCtx3.drawImage(saveCanv4, 0, 0)
+        saveCtx4.drawImage(saveCanv5, 0, 0)
+
+        redoTime++
+        if (redoTime > 0) redo.style = "unset"
+    }
+
+    undoTime--
+    if (undoTime < 1) undo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+}
+
+redo.onclick = function () {
+    if (redoTime > 0) {
+        saveCtx5.drawImage(saveCanv4, 0, 0)
+        saveCtx4.drawImage(saveCanv3, 0, 0)
+        saveCtx3.drawImage(saveCanv2, 0, 0)
+        saveCtx2.drawImage(saveCanv, 0, 0)
+        saveCtx.drawImage(canvas, 0, 0)
+        ctx.drawImage(nextCanv, 0, 0)
+        nextCtx.drawImage(nextCanv2, 0, 0)
+        nextCtx2.drawImage(nextCanv3, 0, 0)
+        nextCtx3.drawImage(nextCanv4, 0, 0)
+        nextCtx4.drawImage(nextCanv5, 0, 0)
+
+        undoTime++
+        if (undoTime > 5) undoTime = 5
+        if (undoTime > 0) undo.style="unset"
+    }
+
+    redoTime--
+    if (redoTime < 1) redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
 }

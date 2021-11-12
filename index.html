@@ -2,12 +2,23 @@
 <html>
 
 <head>
+    <title>Bảng vẽ con cóc</title>
+    <link rel="shortcut icon" href="png/dashboard.png">
     <link rel="stylesheet" href="style/main.css">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 </head>
 
 <body>
     <div id="leftbar">
+        <button class="leftBarBtn" id="menu" style="display: none">
+            <img class="leftBarIcon" src="svg/menu.svg" draggable="false">
+        </button>
+        <button class="leftBarBtn" id="undo">
+            <img class="leftBarIcon" src="svg/undo.svg" draggable="false">
+        </button>
+        <button class="leftBarBtn" id="redo">
+            <img class="leftBarIcon" src="svg/redo.svg" draggable="false">
+        </button>
     </div>
 
     <span id="artboard">
@@ -25,7 +36,7 @@
             <img class="tool-icon" src="svg/trash-fill.svg" draggable="false">
         </button>
         <button id="save" class="tool">
-            <img class="tool-icon" src="svg/save2-fill.svg" draggable="false">
+            <img class="tool-icon" src="svg/cloud.svg" draggable="false">
         </button>
     </div>
 
@@ -48,6 +59,14 @@
         <canvas id="saveCanv3" width="900" height="600"></canvas>
         <canvas id="saveCanv4" width="900" height="600"></canvas>
         <canvas id="saveCanv5" width="900" height="600"></canvas>
+    </span>
+
+    <span id="backup2">
+        <canvas id="nextCanv5" width="900" height="600"></canvas>
+        <canvas id="nextCanv4" width="900" height="600"></canvas>
+        <canvas id="nextCanv3" width="900" height="600"></canvas>
+        <canvas id="nextCanv2" width="900" height="600"></canvas>
+        <canvas id="nextCanv" width="900" height="600"></canvas>
     </span>
 
     <script src="script/main.js"></script>

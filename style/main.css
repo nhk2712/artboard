@@ -6,6 +6,10 @@ body{
     user-select: none;
 }
 
+#artboard{
+    cursor:crosshair;
+}
+
 #control{
     display: flex;
     justify-content:center;
@@ -99,9 +103,35 @@ body{
 }
 
 #leftbar{
-    width:90px;
+    display: flex;
+    flex-direction: column;
+    padding:5px;
 }
 
-#backup{
+#backup,#backup2{
     display:none;
+}
+
+.leftBarBtn{
+    outline: none;
+    background-color:rgb(223, 223, 223);
+    border: none;
+    cursor:pointer;
+    margin:5px;
+    padding: 15px 20px 15px 20px;
+    border-radius: 10px;
+    transition: all 0.5s;
+    width:fit-content;
+}
+
+.leftBarBtn:hover{
+    transform: scale(1.2);
+}
+
+.leftBarBtn:active{
+    background-color:rgb(175, 174, 174);
+}
+
+.leftBarIcon{
+    width: 30px;
 }
