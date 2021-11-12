@@ -221,6 +221,12 @@ eraser.onclick = function () {
 }
 
 clrall.onclick = function () {
+    undoTime++
+    if (undoTime > 5) undoTime = 5
+    if (undoTime > 0) undo.style="unset"
+    redoTime =0
+    redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
+    
     saveCtx5.drawImage(saveCanv4, 0, 0)
     saveCtx4.drawImage(saveCanv3, 0, 0)
     saveCtx3.drawImage(saveCanv2, 0, 0)
