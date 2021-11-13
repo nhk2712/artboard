@@ -9,49 +9,51 @@
 </head>
 
 <body>
-    <div id="leftbar">
-        <button class="leftBarBtn" id="menu" style="display: none">
-            <img class="leftBarIcon" src="svg/menu.svg" draggable="false">
-        </button>
-        <button class="leftBarBtn" id="undo">
-            <img class="leftBarIcon" src="svg/undo.svg" draggable="false">
-        </button>
-        <button class="leftBarBtn" id="redo">
-            <img class="leftBarIcon" src="svg/redo.svg" draggable="false">
-        </button>
+    <div id="container">
+        <div id="leftbar">
+            <button class="leftBarBtn" id="menu" style="display: none">
+                <img class="leftBarIcon" src="svg/menu.svg" draggable="false">
+            </button>
+            <button class="leftBarBtn" id="undo">
+                <img class="leftBarIcon" src="svg/undo.svg" draggable="false">
+            </button>
+            <button class="leftBarBtn" id="redo">
+                <img class="leftBarIcon" src="svg/redo.svg" draggable="false">
+            </button>
+        </div>
+
+        <span id="artboard">
+            <canvas id="canvas" width="900" height="600"></canvas>
+        </span>
+
+        <div id="control">
+            <button id="pen" class="tool">
+                <img class="tool-icon" src="svg/pen-fill.svg" draggable="false">
+            </button>
+            <button id="eraser" class="tool">
+                <img class="tool-icon" src="svg/eraser-fill.svg" draggable="false">
+            </button>
+            <button id="clrall" class="tool">
+                <img class="tool-icon" src="svg/trash-fill.svg" draggable="false">
+            </button>
+            <button id="save" class="tool">
+                <img class="tool-icon" src="svg/cloud.svg" draggable="false">
+            </button>
+        </div>
     </div>
 
-    <span id="artboard">
-        <canvas id="canvas" width="900" height="600"></canvas>
-    </span>
-
-    <div id="control">
-        <button id="pen" class="tool">
-            <img class="tool-icon" src="svg/pen-fill.svg" draggable="false">
-        </button>
-        <button id="eraser" class="tool">
-            <img class="tool-icon" src="svg/eraser-fill.svg" draggable="false">
-        </button>
-        <button id="clrall" class="tool">
-            <img class="tool-icon" src="svg/trash-fill.svg" draggable="false">
-        </button>
-        <button id="save" class="tool">
-            <img class="tool-icon" src="svg/cloud.svg" draggable="false">
-        </button>
-    </div>
-
-    <dialog id="penOpt" class="option">
+    <div id="penOpt" class="option">
         <input id="penVal" type="range" value="25" min="1">
         <div id="penColor">
             <button id="blackPen" class="penColor"></button>
             <button id="bluePen" class="penColor"></button>
             <button id="redPen" class="penColor"></button>
         </div>
-    </dialog>
+    </div>
 
-    <dialog id="eraserOpt" class="option">
+    <div id="eraserOpt" class="option">
         <input id="eraserVal" type="range" value="50" min="2">
-    </dialog>
+    </div>
 
     <span id="backup">
         <canvas id="saveCanv" width="900" height="600"></canvas>

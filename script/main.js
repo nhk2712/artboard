@@ -61,19 +61,19 @@ window.onresize = setSize
 window.onload = setSize
 
 function setSize() {
-    penOpt.style.left = (window.innerWidth - 280).toString() + 'px'
-    eraserOpt.style.left = (window.innerWidth - 390).toString() + 'px'
+    penOpt.style.left = (window.innerWidth - 260).toString() + 'px'
+    eraserOpt.style.left = (window.innerWidth - 260).toString() + 'px'
     artboard.style.transform = 'translateY(' + ((window.innerHeight - canvas.height) / 2 - 20).toString() + 'px)'
     control.style.transform = 'translateY(' + ((window.innerHeight - 600) / 2 - 20).toString() + 'px)'
-    penOpt.style.top = ((window.innerHeight - 600) / 2 + 100).toString() + 'px'
-    eraserOpt.style.top = ((window.innerHeight - 600) / 2 + 207).toString() + 'px'
+    penOpt.style.top = ((window.innerHeight - 590) / 2 + 100).toString() + 'px'
+    eraserOpt.style.top = ((window.innerHeight - 585) / 2 + 207).toString() + 'px'
 }
 
 var bgcolor = 'white'
 
 function init() {
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
     ctx.fillStyle = bgcolor
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = penColor
@@ -134,8 +134,8 @@ function down(e) {
     saveCtx2.drawImage(saveCanv, 0, 0)
     saveCtx.drawImage(canvas, 0, 0)
 
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
 
     curX = getMousePos(canvas, e).x
     curY = getMousePos(canvas, e).y
@@ -166,8 +166,8 @@ function downMob(e) {
     redoTime =0
     redo.style = "cursor:not-allowed;transform: none;background-color: #bbbbbb;"
 
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
 
     curX = getTouchPos(canvas, e).x
     curY = getTouchPos(canvas, e).y
@@ -203,8 +203,8 @@ function getTouchPos(canvas, evt) {
 }
 
 pen.onclick = function () {
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
     ctx.fillStyle = penColor
     r = rPen
     this.style.backgroundColor = 'lightblue'
@@ -212,8 +212,8 @@ pen.onclick = function () {
 }
 
 eraser.onclick = function () {
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
     ctx.fillStyle = bgcolor;
     r = rEraser
     this.style.backgroundColor = 'lightcoral'
@@ -236,8 +236,8 @@ clrall.onclick = function () {
 }
 
 save.onclick = function () {
-    penOpt.open = false
-    eraserOpt.open = false
+    penOpt.style.display = "none"
+    eraserOpt.style.display = "none"
 
     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
 
@@ -263,7 +263,7 @@ penVal.onchange = function () {
 pen.ontouchend = function () {
     pen.click()
     penOpt.style.animation = 'fadein 1s'
-    penOpt.open = true
+    penOpt.style.display = "unset"
 }
 
 pen.onauxclick = pen.ontouchend
@@ -271,7 +271,7 @@ pen.onauxclick = pen.ontouchend
 eraser.ontouchend = function () {
     eraser.click()
     eraserOpt.style.animation = 'fadein 1s'
-    eraserOpt.open = true
+    eraserOpt.style.display = "unset"
 }
 
 eraser.onauxclick = eraser.ontouchend
@@ -304,7 +304,6 @@ var isCtrl = false
 
 document.onkeydown = function (e) {
     if (e.key == 'Control') isCtrl = true
-    else if (e.key == 'Shift') isShift = true
     else if (e.key == 'z') {
         if (isCtrl) undo.click()
     }
