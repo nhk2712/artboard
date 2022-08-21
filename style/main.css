@@ -11,7 +11,7 @@ body{
 }
 
 #artboard{
-    cursor:url('../png/pen.png'),auto;
+    cursor:crosshair;
 }
 
 #control{
