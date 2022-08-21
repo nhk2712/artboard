@@ -118,6 +118,7 @@ function drawMob(evt) {
 
 artboard.onmousedown = down
 artboard.onmouseup = up
+artboard.onmouseleave = up
 artboard.ontouchstart = downMob
 artboard.ontouchend = upMob
 
